@@ -17,7 +17,6 @@
 
 import feedparser
 import argparse
-import sys
 
 # Parse some args up in here.
 # Note: 'route53', 'management-console', and 'all' do not need a region
@@ -34,12 +33,16 @@ else:
 # Parse the feed and return value from the first entry. Return UNKNOWN to Nagios if error.
 try:
   d = feedparser.parse('http://status.aws.amazon.com/rss/'+feed+'.rss')
-  title = d.entries[0]['title']
-  pubdate = d.entries[0]['published']
-  dsc = d.entries[0]['description']
-except:
+  if d.entries:
+    title = d.entries[0]['title']
+    pubdate = d.entries[0]['published']
+    dsc = d.entries[0]['description']
+  elif d['feed']['title']:
+    print 'AWS OK: No events to display.'
+    exit(0)
+except KeyError:
   print 'AWS UNKNOWN: Feed http://status.aws.amazon.com/rss/'+feed+'.rss could not be parsed. Check command options.'
-  sys.exit(3)
+  exit(3)
 
 # Determine the state of the feed
 if title.startswith("Service is operating normally"):
@@ -61,4 +64,4 @@ print msg
 print pubdate
 print dsc
 
-sys.exit(status)
+exit(status)
