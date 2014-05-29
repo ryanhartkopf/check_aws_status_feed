@@ -20,9 +20,9 @@ import argparse
 import sys
 
 # Parse some args up in here.
-# Note: 'route53' and 'all' do not need a region
+# Note: 'route53', 'management-console', and 'all' do not need a region
 parser = argparse.ArgumentParser(description='Check current status information from the AWS Service Health Dashboard (status.aws.amazon.com).')
-parser.add_argument('service', choices=['cloudwatch', 'ec2', 'elb', 'rds', 'route53', 'vpc', 'iam', 'all'])
+parser.add_argument('service', choices=['s3', 'elasticache', 'management-console', 'cloudwatch', 'ec2', 'elb', 'rds', 'route53', 'vpc', 'iam', 'all'])
 parser.add_argument('--region', choices=['us-east-1', 'us-west-1', 'us-west-2'])
 args = parser.parse_args()
 
