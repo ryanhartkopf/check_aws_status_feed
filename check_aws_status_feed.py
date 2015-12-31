@@ -25,7 +25,7 @@ parser.add_argument('service', choices=['s3', 'elasticache', 'management-console
 parser.add_argument('--region', choices=['us-east-1', 'us-west-1', 'us-west-2', 'us-standard'])
 args = parser.parse_args()
 
-if args.region == None:
+if args.region == None or args.service == 'management-console' or args.service == 'route53':
   feed = args.service
 else:
   feed = args.service + '-' + args.region
